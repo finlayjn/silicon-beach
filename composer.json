@@ -5,7 +5,8 @@
 		"sirbrillig/phpcs-changed": "^2.11",
 		"sirbrillig/phpcs-variable-analysis": "^2.11",
 		"wp-cli/i18n-command": "^2.6",
-		"wp-coding-standards/wpcs": "^3.1"
+		"wp-coding-standards/wpcs": "^3.1",
+		"roots/wordpress": "^6.8"
 	},
 	"scripts": {
 		"php:lint": "vendor/bin/phpcs -p -s",
@@ -16,7 +17,8 @@
 	},
 	"config": {
 		"allow-plugins": {
-			"dealerdirect/phpcodesniffer-composer-installer": true
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"roots/wordpress-core-installer": false
 		}
 	}
 }
