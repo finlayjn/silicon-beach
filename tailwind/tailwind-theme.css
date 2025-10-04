@@ -19,9 +19,9 @@
      */
 	--color-background: var(--wp--preset--color--background);
 	--color-foreground: var(--wp--preset--color--foreground);
-	--color-primary: var(--wp--preset--color--primary);
+	/* --color-primary: var(--wp--preset--color--primary);
 	--color-secondary: var(--wp--preset--color--secondary);
-	--color-tertiary: var(--wp--preset--color--tertiary);
+	--color-tertiary: var(--wp--preset--color--tertiary); */
 	--container-content: var(--wp--style--global--content-size);
 	--container-wide: var(--wp--style--global--wide-size);
 
@@ -48,3 +48,75 @@
 	 * Add your theme below:
 	 */
 }
+
+@plugin "daisyui";
+
+@plugin "daisyui/theme" {
+	name: "sblight";
+	default: true;
+	prefersdark: true;
+	color-scheme: "light";
+	--color-base-100: oklch(100% 0 0);
+	--color-base-200: oklch(98% 0 0);
+	--color-base-300: oklch(95% 0 0);
+	--color-base-content: oklch(21% 0.006 285.885);
+	--color-primary: #0072bc;
+	--color-primary-content: #fff;
+	--color-secondary: #5bc6c6;
+	--color-secondary-content: oklch(30% 0.056 229.695);
+	--color-accent: #fec223;
+	--color-accent-content: oklch(28% 0.066 53.813);
+	--color-neutral: oklch(14% 0.005 285.823);
+	--color-neutral-content: oklch(92% 0.004 286.32);
+	--color-info: oklch(74% 0.16 232.661);
+	--color-info-content: oklch(29% 0.066 243.157);
+	--color-success: oklch(76% 0.177 163.223);
+	--color-success-content: oklch(37% 0.077 168.94);
+	--color-warning: #f26722;
+	--color-warning-content: oklch(98% 0.022 95.277);
+	--color-error: oklch(63% 0.237 25.331);
+	--color-error-content: oklch(97% 0.013 17.38);
+	--radius-selector: 0.5rem;
+	--radius-field: 0.25rem;
+	--radius-box: 0.5rem;
+	--size-selector: 0.25rem;
+	--size-field: 0.25rem;
+	--border: 1px;
+	--depth: 0;
+	--noise: 0;
+}
+
+/* @plugin "daisyui/theme" {
+  name: "sbdark";
+  default: false;
+  prefersdark: true;
+  color-scheme: "dark";
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(98% 0 0);
+  --color-base-300: oklch(95% 0 0);
+  --color-base-content: oklch(21% 0.006 285.885);
+  --color-primary: #0072BC;
+  --color-primary-content: #FFF;
+  --color-secondary: #5BC6C6;
+  --color-secondary-content: oklch(30% 0.056 229.695);
+  --color-accent: #FEC223;
+  --color-accent-content: oklch(28% 0.066 53.813);
+  --color-neutral: oklch(14% 0.005 285.823);
+  --color-neutral-content: oklch(92% 0.004 286.32);
+  --color-info: oklch(74% 0.16 232.661);
+  --color-info-content: oklch(29% 0.066 243.157);
+  --color-success: oklch(76% 0.177 163.223);
+  --color-success-content: oklch(37% 0.077 168.94);
+  --color-warning: #F26722;
+  --color-warning-content: oklch(98% 0.022 95.277);
+  --color-error: oklch(63% 0.237 25.331);
+  --color-error-content: oklch(97% 0.013 17.38);
+  --radius-selector: 0.5rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+} */

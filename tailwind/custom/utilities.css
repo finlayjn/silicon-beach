@@ -6,3 +6,55 @@
  *
  * https://tailwindcss.com/docs/adding-custom-styles#adding-custom-utilities
  */
+
+.underline-animate {
+	position: relative;
+	display: inline-block;
+}
+
+.underline-animate::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -3px; /* Adjusted to make the underline slightly lower */
+	width: 100%;
+	height: 3px;
+	background: var(--color-accent);
+	transform: scaleX(0);
+	transform-origin: center;
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.underline-animate:hover::after,
+.underline-animate:focus::after {
+	transform: scaleX(1);
+}
+
+/* .hero-gradient-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 1) 0%, rgba(59, 130, 246, 0.5) 100%);
+  /* Replace 59,130,246 with your primary color's RGB 
+} */
+
+.hero-input {
+	@apply input input-md text-base-content focus:ring-2 focus:ring-white focus:outline-none;
+}
+
+body.logged-in #masthead {
+    top: 32px;
+}
+
+.widget h1,
+.widget h2,
+.widget h3,
+.widget h4 {
+	margin-top: 1em;
+}
+
+#masthead {
+	font-family: cartogothicstd;
+	@apply text-primary-content;
+}

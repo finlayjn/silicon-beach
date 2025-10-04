@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Template part for displaying the footer content
  *
@@ -9,44 +10,77 @@
 
 ?>
 
-<footer id="colophon">
-
-	<?php if ( is_active_sidebar( 'sidebar-1' ) ) : ?>
-		<aside role="complementary" aria-label="<?php esc_attr_e( 'Footer', 'silicon-beach' ); ?>">
-			<?php dynamic_sidebar( 'sidebar-1' ); ?>
-		</aside>
-	<?php endif; ?>
-
-	<?php if ( has_nav_menu( 'menu-2' ) ) : ?>
-		<nav aria-label="<?php esc_attr_e( 'Footer Menu', 'silicon-beach' ); ?>">
-			<?php
-			wp_nav_menu(
-				array(
-					'theme_location' => 'menu-2',
-					'menu_class'     => 'footer-menu',
-					'depth'          => 1,
-				)
-			);
-			?>
-		</nav>
-	<?php endif; ?>
-
-	<div>
+<footer id="colophon" class="footer footer-horizontal footer-center bg-[#303392] text-primary-content p-10">
+	<aside>
 		<?php
-		$silicon_beach_blog_info = get_bloginfo( 'name' );
-		if ( ! empty( $silicon_beach_blog_info ) ) :
-			?>
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>,
-			<?php
-		endif;
+		$customizer_logo = get_theme_mod('logo');
+		$logo_url = '';
 
-		/* translators: 1: WordPress link, 2: WordPress. */
-		printf(
-			'<a href="%1$s">proudly powered by %2$s</a>.',
-			esc_url( __( 'https://wordpress.org/', 'silicon-beach' ) ),
-			'WordPress'
-		);
-		?>
-	</div>
+		if ( $customizer_logo ) {
+			if ( is_numeric( $customizer_logo ) ) {
+				$logo_url = wp_get_attachment_image_url( intval( $customizer_logo ), 'full' );
+			} else {
+				$logo_url = $customizer_logo;
+			}
+		}
+
+		if ( $logo_url ) : ?>
+			<img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" class="mb-5 inline-block fill-current w-120 max-w-1/2" />
+		<?php endif; ?>
+		<p class="font-bold">
+			<?php
+			$silicon_beach_blog_name = get_bloginfo('name');
+			if (! empty($silicon_beach_blog_name)) :
+			?>
+				<a href="<?php echo esc_url(home_url('/')); ?>" rel="home"><?php bloginfo('name'); ?></a>
+			<?php endif; ?>
+			<br />
+			<?php
+			$silicon_beach_blog_info = get_bloginfo('description');
+			if (! empty($silicon_beach_blog_info)) :
+			?>
+				<?php bloginfo('description'); ?>
+			<?php endif; ?>
+		</p>
+		<p>© <?php echo date('Y');
+				echo ' ' . $silicon_beach_blog_name; ?> - All rights reserved</p>
+	</aside>
+	<nav>
+		<div class="grid grid-flow-col gap-4">
+			<a>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					class="fill-current">
+					<path
+						d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path>
+				</svg>
+			</a>
+			<a>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					class="fill-current">
+					<path
+						d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path>
+				</svg>
+			</a>
+			<a>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					class="fill-current">
+					<path
+						d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path>
+				</svg>
+			</a>
+		</div>
+	</nav>
 
 </footer><!-- #colophon -->

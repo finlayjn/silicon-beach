@@ -131,38 +131,52 @@ if ( ! function_exists( 'silicon_beach_entry_footer' ) ) :
 		// Hide author, post date, category and tag text for pages.
 		if ( 'post' === get_post_type() ) {
 
+			echo '<div class="mt-4 text-sm text-gray-600 space-y-2">';
+
 			// Posted by.
+			echo '<div class="flex items-center space-x-2">';
+			echo '<span class="font-medium">' . esc_html__( 'By:', 'silicon-beach' ) . '</span>';
 			silicon_beach_posted_by();
+			echo '</div>';
 
 			// Posted on.
+			echo '<div class="flex items-center space-x-2">';
+			echo '<span class="font-medium">' . esc_html__( 'On:', 'silicon-beach' ) . '</span>';
 			silicon_beach_posted_on();
+			echo '</div>';
 
 			/* translators: used between list items, there is a space after the comma. */
 			$categories_list = get_the_category_list( __( ', ', 'silicon-beach' ) );
 			if ( $categories_list ) {
+				echo '<div class="flex items-center space-x-2">';
+				echo '<span class="font-medium">' . esc_html__( 'Categories:', 'silicon-beach' ) . '</span>';
 				printf(
-				/* translators: 1: posted in label, only visible to screen readers. 2: list of categories. */
-					'<span class="sr-only">%1$s</span>%2$s',
-					esc_html__( 'Posted in', 'silicon-beach' ),
+					'<span class="text-gray-800">%s</span>',
 					$categories_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				);
+				echo '</div>';
 			}
 
 			/* translators: used between list items, there is a space after the comma. */
 			$tags_list = get_the_tag_list( '', __( ', ', 'silicon-beach' ) );
 			if ( $tags_list ) {
+				echo '<div class="flex items-center space-x-2">';
+				echo '<span class="font-medium">' . esc_html__( 'Tags:', 'silicon-beach' ) . '</span>';
 				printf(
-				/* translators: 1: tags label, only visible to screen readers. 2: list of tags. */
-					'<span class="sr-only">%1$s</span>%2$s',
-					esc_html__( 'Tags:', 'silicon-beach' ),
+					'<span class="text-gray-800">%s</span>',
 					$tags_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				);
+				echo '</div>';
 			}
+
+			echo '</div>';
 		}
 
 		// Comment count.
 		if ( ! is_singular() ) {
+			echo '<div class="mt-4">';
 			silicon_beach_comment_count();
+			echo '</div>';
 		}
 
 		// Edit post link.
@@ -178,7 +192,9 @@ if ( ! function_exists( 'silicon_beach_entry_footer' ) ) :
 					)
 				),
 				get_the_title()
-			)
+			),
+			'<div class="mt-4 text-sm text-blue-600 hover:underline">',
+			'</div>'
 		);
 	}
 endif;
@@ -255,16 +271,27 @@ endif;
 
 if ( ! function_exists( 'silicon_beach_the_posts_navigation' ) ) :
 	/**
-	 * Wraps `the_posts_pagination` for use throughout the theme.
+	 * Wraps `the_posts_pagination` for use throughout the theme with DaisyUI pagination styling.
 	 */
 	function silicon_beach_the_posts_navigation() {
-		the_posts_pagination(
+		$pagination = paginate_links(
 			array(
 				'mid_size'  => 2,
-				'prev_text' => __( 'Newer posts', 'silicon-beach' ),
-				'next_text' => __( 'Older posts', 'silicon-beach' ),
+				'prev_text' => __( '‹', 'silicon-beach' ),
+				'next_text' => __( '›', 'silicon-beach' ),
+				'type'      => 'array',
 			)
 		);
+
+		if ( ! empty( $pagination ) ) {
+			echo '<div class="join justify-center flex">';
+			foreach ( $pagination as $link ) {
+				$is_disabled = strpos( $link, 'dots' ) !== false || strpos( $link, 'current' ) !== false;
+				$button_class = $is_disabled ? 'join-item btn btn-disabled' : 'join-item btn';
+				echo str_replace( 'page-numbers', $button_class, $link ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			}
+			echo '</div>';
+		}
 	}
 endif;
 

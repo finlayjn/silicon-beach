@@ -3,3 +3,11 @@
  *
  * These will be added immediately before Tailwind’s `base` layer.
  */
+
+@font-face {
+    font-family: 'CartoGothicStd';
+    src: url('/wp-content/themes/silicon-beach/CartoGothicStd-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}

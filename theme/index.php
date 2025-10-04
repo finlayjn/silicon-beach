@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The main template file
  *
@@ -15,11 +16,14 @@
 get_header();
 ?>
 
-	<section id="primary">
-		<main id="main">
-
+<section id="primary" class="container mx-auto flex flex-wrap lg:flex-nowrap max-w-7xl p-3 gap-4">
+	<main id="main" class="w-full lg:w-3/4 p-4">
 		<?php
 		if ( have_posts() ) {
+
+			if ( is_paged() ) {
+				silicon_beach_the_posts_navigation();
+			}
 
 			if ( is_home() && ! is_front_page() ) :
 				?>
@@ -45,9 +49,12 @@ get_header();
 
 		}
 		?>
+	</main><!-- #main -->
 
-		</main><!-- #main -->
-	</section><!-- #primary -->
+	<aside id="sidebar" class="w-full lg:w-1/4 sticky top-25 max-h-screen overflow-y-none">
+		<?php get_sidebar("sidebar-2"); ?>
+	</aside><!-- #sidebar -->
+</section><!-- #primary -->
 
 <?php
 get_footer();
