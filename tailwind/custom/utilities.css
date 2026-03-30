@@ -47,14 +47,24 @@ body.logged-in #masthead {
     top: 32px;
 }
 
-.widget h1,
+/* .widget h1,
 .widget h2,
 .widget h3,
 .widget h4 {
-	margin-top: 1em;
-}
+	margin-top: 0.5em;
+} */
 
 #masthead {
 	font-family: cartogothicstd;
 	@apply text-primary-content;
+}
+
+.cartogothicstd {
+	font-family: cartogothicstd;
+}
+
+.nav-links {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
 }

@@ -9,19 +9,22 @@
 
 ?>
 
+
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-	<header class="entry-header">
-		<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
+	<header class="entry-header mb-4">
+		<?php the_title( '<h1 class="entry-title mb-2 text-5xl">', '</h1>' ); ?>
 
 		<?php if ( ! is_page() ) : ?>
-			<div class="entry-meta">
+			<div class="entry-meta mb-4">
 				<?php silicon_beach_entry_meta(); ?>
 			</div><!-- .entry-meta -->
 		<?php endif; ?>
+
+		<?php silicon_beach_post_thumbnail(); ?>
 	</header><!-- .entry-header -->
 
-	<?php silicon_beach_post_thumbnail(); ?>
+	
 
 	<div <?php silicon_beach_content_class( 'entry-content' ); ?>>
 		<?php
@@ -48,9 +51,5 @@
 		);
 		?>
 	</div><!-- .entry-content -->
-
-	<footer class="entry-footer">
-		<?php silicon_beach_entry_footer(); ?>
-	</footer><!-- .entry-footer -->
 
 </article><!-- #post-${ID} -->

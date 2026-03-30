@@ -9,7 +9,6 @@
  * @package Silicon_Beach
  */
 
-// Add theme customizer settings for DaisyUI theme variables
 function silicon_beach_customize_register($wp_customize)
 {
     // Section for DaisyUI Theme Variables
@@ -50,16 +49,8 @@ function silicon_beach_customize_register($wp_customize)
         '--noise' => 'Noise',
     );
 
-    // Add settings and controls for each variable
-
     foreach ($variables as $variable => $label) {
         $setting_id = str_replace('--', '', $variable); // Remove '--' for setting ID
-
-        // Add setting
-        $wp_customize->add_setting($setting_id, array(
-            'default'   => '',
-            'transport' => 'refresh',
-        ));
 
         // Determine control type
         if (
@@ -89,15 +80,122 @@ function silicon_beach_customize_register($wp_customize)
             $control_type = 'text';
         }
 
-        $wp_customize->add_control($setting_id, array(
-            'label'    => $label,
-            'section'  => 'daisyui_theme_variables',
-            'settings' => $setting_id,
-            'type'     => $control_type,
+        // Choose a sanitize callback suitable for the type
+        $sanitize_callback = 'sanitize_text_field';
+        if ($control_type === 'color') {
+            $sanitize_callback = 'sanitize_hex_color';
+        } elseif ($control_type === 'checkbox') {
+            $sanitize_callback = 'silicon_beach_sanitize_checkbox';
+        } elseif ($control_type === 'number') {
+            $sanitize_callback = 'silicon_beach_sanitize_number';
+        }
+
+        // Add setting
+        $wp_customize->add_setting($setting_id, array(
+            'default'           => '',
+            'transport'         => 'refresh',
+            'sanitize_callback' => $sanitize_callback,
+            'capability'        => 'edit_theme_options',
         ));
+
+        // Add control (use the proper Color Control to enqueue color picker scripts)
+        if ($control_type === 'color') {
+            $wp_customize->add_control(new WP_Customize_Color_Control(
+                $wp_customize,
+                $setting_id,
+                array(
+                    'label'    => $label,
+                    'section'  => 'daisyui_theme_variables',
+                    'settings' => $setting_id,
+                )
+            ));
+        } else {
+            $wp_customize->add_control($setting_id, array(
+                'label'    => $label,
+                'section'  => 'daisyui_theme_variables',
+                'settings' => $setting_id,
+                'type'     => $control_type,
+            ));
+        }
     }
+
+    // Front Page section
+    $wp_customize->add_section('front_page', array(
+        'title'    => __('Front Page', 'silicon-beach'),
+        'priority' => 31,
+    ));
+
+    // Hero Background (image)
+    $wp_customize->add_setting('hero_background', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'refresh',
+        'capability'        => 'edit_theme_options',
+    ));
+    $wp_customize->add_control(new WP_Customize_Image_Control(
+        $wp_customize,
+        'hero_background',
+        array(
+            'label'    => __('Hero Background', 'silicon-beach'),
+            'section'  => 'front_page',
+            'settings' => 'hero_background',
+        )
+    ));
+
+    // Logo (image)
+    $wp_customize->add_setting('logo', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'refresh',
+        'capability'        => 'edit_theme_options',
+    ));
+    $wp_customize->add_control(new WP_Customize_Image_Control(
+        $wp_customize,
+        'logo',
+        array(
+            'label'    => __('Logo', 'silicon-beach'),
+            'section'  => 'front_page',
+            'settings' => 'logo',
+        )
+    ));
+
+    // Hero Title (text)
+    $wp_customize->add_setting('hero_title', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+        'capability'        => 'edit_theme_options',
+    ));
+    $wp_customize->add_control('hero_title', array(
+        'label'    => __('Hero Title', 'silicon-beach'),
+        'section'  => 'front_page',
+        'settings' => 'hero_title',
+        'type'     => 'text',
+    ));
+
+    // Hero Tagline (text)
+    $wp_customize->add_setting('hero_tagline', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+        'capability'        => 'edit_theme_options',
+    ));
+    $wp_customize->add_control('hero_tagline', array(
+        'label'    => __('Hero Tagline', 'silicon-beach'),
+        'section'  => 'front_page',
+        'settings' => 'hero_tagline',
+        'type'     => 'text',
+    ));
 }
 add_action('customize_register', 'silicon_beach_customize_register');
+
+// Sanitize helpers
+function silicon_beach_sanitize_checkbox($value) {
+    return $value ? 1 : 0;
+}
+function silicon_beach_sanitize_number($value) {
+    return is_numeric($value) ? $value : '';
+}
 
 // Output customizer settings as CSS variables
 function silicon_beach_customizer_css()
@@ -140,8 +238,8 @@ function silicon_beach_customizer_css()
             foreach ($variables as $variable) {
                 $setting_id = str_replace('--', '', $variable); // Remove '--' for setting ID
                 $value = get_theme_mod($setting_id, '');
-                if (!empty($value)) {
-                    echo "{$variable}: {$value};\n";
+                if ($value !== '' && $value !== null) {
+                    echo esc_html("{$variable}: {$value};\n");
                 }
             }
             ?>
@@ -151,46 +249,52 @@ function silicon_beach_customizer_css()
 }
 
 function silicon_beach_customizer_styles() {
-    if (is_customize_preview()) {
-        echo '<style>
-            #customize-control-color-base-100,
-            #customize-control-color-base-200,
-            #customize-control-color-base-300,
-            #customize-control-color-base-content,
-            #customize-control-color-primary,
-            #customize-control-color-primary-content,
-            #customize-control-color-secondary,
-            #customize-control-color-secondary-content,
-            #customize-control-color-accent,
-            #customize-control-color-accent-content,
-            #customize-control-color-neutral,
-            #customize-control-color-neutral-content,
-            #customize-control-color-info,
-            #customize-control-color-info-content,
-            #customize-control-color-success,
-            #customize-control-color-success-content,
-            #customize-control-color-warning,
-            #customize-control-color-warning-content,
-            #customize-control-color-error,
-            #customize-control-color-error-content {
-                width: 48%;
-                float: left;
-                margin-right: 4%;
-            }
-            #customize-control-color-base-content,
-            #customize-control-color-primary-content,
-            #customize-control-color-secondary-content,
-            #customize-control-color-accent-content,
-            #customize-control-color-neutral-content,
-            #customize-control-color-info-content,
-            #customize-control-color-success-content,
-            #customize-control-color-warning-content,
-            #customize-control-color-error-content {
-                margin-right: 0;
-            }
-        </style>';
-    }
+    // Always print in controls frame; no is_customize_preview() check here
+    echo '<style>
+        #customize-control-color-base-100,
+        #customize-control-color-base-200,
+        #customize-control-color-base-300,
+        #customize-control-color-base-content,
+        #customize-control-color-primary,
+        #customize-control-color-primary-content,
+        #customize-control-color-secondary,
+        #customize-control-color-secondary-content,
+        #customize-control-color-accent,
+        #customize-control-color-accent-content,
+        #customize-control-color-neutral,
+        #customize-control-color-neutral-content,
+        #customize-control-color-info,
+        #customize-control-color-info-content,
+        #customize-control-color-success,
+        #customize-control-color-success-content,
+        #customize-control-color-warning,
+        #customize-control-color-warning-content,
+        #customize-control-color-error,
+        #customize-control-color-error-content {
+            width: 48%;
+            float: left;
+            margin-right: 4%;
+        }
+        #customize-control-color-base-content,
+        #customize-control-color-primary-content,
+        #customize-control-color-secondary-content,
+        #customize-control-color-accent-content,
+        #customize-control-color-neutral-content,
+        #customize-control-color-info-content,
+        #customize-control-color-success-content,
+        #customize-control-color-warning-content,
+        #customize-control-color-error-content {
+            margin-right: 0;
+        }
+    </style>';
+}
+
+// Ensure color picker assets are available in the controls frame
+function silicon_beach_customizer_enqueue() {
+    wp_enqueue_style('wp-color-picker');
+    wp_enqueue_script('wp-color-picker');
 }
 
 add_action('wp_head', 'silicon_beach_customizer_css');
 add_action('customize_controls_print_styles', 'silicon_beach_customizer_styles');
+add_action('customize_controls_enqueue_scripts', 'silicon_beach_customizer_enqueue');

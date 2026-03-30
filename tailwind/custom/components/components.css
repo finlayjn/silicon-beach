@@ -26,6 +26,21 @@
 	@apply prose prose-neutral max-w-none prose-a:text-primary;
 }
 
+/* Reset top/bottom margins for text elements inside widgets */
+.widget p,
+.widget h1, .widget h2, .widget h3, .widget h4, .widget h5, .widget h6,
+.widget blockquote,
+.widget pre,
+.widget ul, .widget ol, .widget dl,
+.widget li,
+.widget figure,
+.widget table,
+.widget address {
+	@apply mt-0 mb-0;
+}
+
+
+
 /**
  * Layout styles for centered content areas
  *
@@ -58,3 +73,31 @@
 .entry-content > .alignright {
 	@apply float-right ml-8;
 } */
+
+.wp-block-button__link, input[type=submit] {
+	@apply btn btn-primary no-underline;
+}
+
+.wp-block-button__link .is-style-outline {
+	@apply btn btn-outline;
+}
+
+input[type="text"], input[type="email"], input[type="url"], input[type="password"], input[type="search"], textarea, select {
+	@apply input;
+}
+
+.mc4wp-form-fields label {
+	@apply floating-label;
+}
+
+#secondary .mc4wp-form-fields {
+	@apply flex flex-col gap-2;
+}
+
+.hero-content .mc4wp-form-fields {
+	@apply flex-col flex md:flex-row gap-2;
+}
+
+.mc4wp-form-fields input[type="text"], .mc4wp-form-fields input[type="email"] {
+	@apply w-full;
+}

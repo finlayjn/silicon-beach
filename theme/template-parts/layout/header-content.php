@@ -12,7 +12,7 @@
 <header id="masthead" class="sticky top-0 z-50">
 	<div class="bg-primary">
 		<div class="navbar max-w-7xl mx-auto">
-			<div class="navbar-start flex flex-col items-start mx-5">
+			<div class="navbar-start flex flex-col items-start ml-5">
 				<?php if (is_front_page()) : ?>
 
 					<h1 class="text-2xl font-bold text-wrap md:text-nowrap md:text-4xl">

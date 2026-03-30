@@ -147,8 +147,20 @@ function silicon_beach_widgets_init()
 			'name'          => __('Sidebar', 'silicon-beach'),
 			'id'            => 'sidebar-2',
 			'description'   => __('Add widgets here to appear in your footer.', 'silicon-beach'),
-			'before_widget' => '<section id="%1$s" class="widget %2$s"><div class="card bg-base-200"><div class="card-body -mt-4 -mb-4">',
-			'after_widget'  => '</div></div></section>',
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h3 class="widget-title">',
+			'after_title'   => '</h3>',
+		)
+	);
+
+	register_sidebar(
+		array(
+			'name'          => __('Hero Widgets', 'silicon-beach'),
+			'id'            => 'hero-widgets',
+			'description'   => __('Add widgets here to appear in the hero section of the homepage.', 'silicon-beach'),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
 			'before_title'  => '<h3 class="widget-title">',
 			'after_title'   => '</h3>',
 		)
@@ -257,7 +269,7 @@ function custom_excerpt_more($more)
 add_filter('excerpt_more', 'custom_excerpt_more');
 
 add_action('wp_head', function () {
-    if (is_customize_preview()) {
-        echo '<style>body.logged-in #masthead { top: 0 !important; }</style>';
-    }
+	if (is_customize_preview()) {
+		echo '<style>body.logged-in #masthead { top: 0 !important; }</style>';
+	}
 });

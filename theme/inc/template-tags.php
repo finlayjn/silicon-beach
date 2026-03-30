@@ -13,9 +13,9 @@ if ( ! function_exists( 'silicon_beach_posted_on' ) ) :
 	 */
 	function silicon_beach_posted_on() {
 		$time_string = '<time datetime="%1$s">%2$s</time>';
-		if ( get_the_time( 'U' ) !== get_the_modified_time( 'U' ) ) {
-			$time_string = '<time datetime="%1$s">%2$s</time><time datetime="%3$s">%4$s</time>';
-		}
+		// if ( get_the_time( 'U' ) !== get_the_modified_time( 'U' ) ) {
+		// 	$time_string = '<time datetime="%1$s">%2$s</time><time datetime="%3$s">%4$s</time>';
+		// }
 
 		$time_string = sprintf(
 			$time_string,
@@ -26,8 +26,8 @@ if ( ! function_exists( 'silicon_beach_posted_on' ) ) :
 		);
 
 		printf(
-			'<a href="%1$s" rel="bookmark">%2$s</a>',
-			esc_url( get_permalink() ),
+			// '<a href="%1$s" rel="bookmark">%2$s</a>',
+			// esc_url( get_permalink() ),
 			$time_string // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		);
 	}
@@ -69,12 +69,17 @@ if ( ! function_exists( 'silicon_beach_entry_meta' ) ) :
 
 		// Hide author, post date, category and tag text for pages.
 		if ( 'post' === get_post_type() ) {
-
 			// Posted by.
-			silicon_beach_posted_by();
+			// silicon_beach_posted_by();
+
+
+			echo '<p class="text-secondary-content">';
 
 			// Posted on.
 			silicon_beach_posted_on();
+
+			// Visible label "In" with horizontal spacing before category list.
+			echo '<span class="ml-5 mr-1" aria-hidden="true">' . esc_html__( 'In', 'silicon-beach' ) . '</span>';
 
 			/* translators: used between list items, there is a space after the comma. */
 			$categories_list = get_the_category_list( __( ', ', 'silicon-beach' ) );
@@ -87,38 +92,43 @@ if ( ! function_exists( 'silicon_beach_entry_meta' ) ) :
 				);
 			}
 
+			echo '</p>';
+			
+
 			/* translators: used between list items, there is a space after the comma. */
-			$tags_list = get_the_tag_list( '', __( ', ', 'silicon-beach' ) );
-			if ( $tags_list ) {
-				printf(
-				/* translators: 1: tags label, only visible to screen readers. 2: list of tags. */
-					'<span class="sr-only">%1$s</span>%2$s',
-					esc_html__( 'Tags:', 'silicon-beach' ),
-					$tags_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				);
-			}
+			// $tags_list = get_the_tag_list( '', __( ', ', 'silicon-beach' ) );
+			// if ( $tags_list ) {
+			// 	printf(
+			// 	/* translators: 1: tags label, only visible to screen readers. 2: list of tags. */
+			// 		'<span class="sr-only">%1$s</span>%2$s',
+			// 		esc_html__( 'Tags:', 'silicon-beach' ),
+			// 		$tags_list // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			// 	);
+			// }
+
+
 		}
 
 		// Comment count.
-		if ( ! is_singular() ) {
-			silicon_beach_comment_count();
-		}
+		// if ( ! is_singular() ) {
+		// 	silicon_beach_comment_count();
+		// }
 
 		// Edit post link.
-		edit_post_link(
-			sprintf(
-				wp_kses(
-				/* translators: %s: Name of current post. Only visible to screen readers. */
-					__( 'Edit <span class="sr-only">%s</span>', 'silicon-beach' ),
-					array(
-						'span' => array(
-							'class' => array(),
-						),
-					)
-				),
-				get_the_title()
-			)
-		);
+		// edit_post_link(
+		// 	sprintf(
+		// 		wp_kses(
+		// 		/* translators: %s: Name of current post. Only visible to screen readers. */
+		// 			__( 'Edit <span class="sr-only">%s</span>', 'silicon-beach' ),
+		// 			array(
+		// 				'span' => array(
+		// 					'class' => array(),
+		// 				),
+		// 			)
+		// 		),
+		// 		get_the_title()
+		// 	)
+		// );
 	}
 endif;
 
@@ -284,7 +294,7 @@ if ( ! function_exists( 'silicon_beach_the_posts_navigation' ) ) :
 		);
 
 		if ( ! empty( $pagination ) ) {
-			echo '<div class="join justify-center flex">';
+			echo '<div class="join justify-center flex mb-3">';
 			foreach ( $pagination as $link ) {
 				$is_disabled = strpos( $link, 'dots' ) !== false || strpos( $link, 'current' ) !== false;
 				$button_class = $is_disabled ? 'join-item btn btn-disabled' : 'join-item btn';

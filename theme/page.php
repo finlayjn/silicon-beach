@@ -15,8 +15,8 @@
 get_header();
 ?>
 
-<section id="primary" class="container mx-auto flex flex-wrap lg:flex-nowrap max-w-7xl p-3 gap-4">
-	<main id="main" class="w-full lg:w-3/4 p-4">
+<section id="primary">
+	<main id="main">
 
 		<?php
 		/* Start the Loop */
@@ -36,9 +36,7 @@ get_header();
 
 	</main><!-- #main -->
 
-	<aside id="sidebar" class="w-full lg:w-1/4 sticky top-25 max-h-screen overflow-y-none">
-		<?php get_sidebar("sidebar-2"); ?>
-	</aside><!-- #sidebar -->
+	
 </section><!-- #primary -->
 
 <?php
